@@ -1,0 +1,14 @@
+## Ignore TeX stuff
+*.aux
+*.log
+*.nav
+*.toc
+*.out
+*.vrb
+*.snm
+
+## Ignore temporary files
+*~
+
+## Ignore directory with literature
+literature/
