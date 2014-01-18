@@ -1,0 +1,14 @@
+* Ueberblick psychometrische Modelle
+Fragen zu Rasch-Modell: 
+- Annahme: gegeben den Personenparameter ist ein bestimmtes Item für jede Person gleich schwer geschätzt?
+- Raschmodell darf nur ein latentes Konstrukt messen, oder? Bei zwei kann man keine Reihenfolge bestimmen, 
+  zum Beispiel mathematische Fähigkeiten und sprachliche Fähigkeiten.
+- Raschmodell auch bei Fragebogen, wo keine Fähigkeiten sondern Einstellungen abgefragt werden? Wie interpretiert
+  man dann Item-Schwierigkeit?
+Fragen zu CDM:
+- \eta_{pi} = \sum_{k = 1}^K \alpha_{pk}^{q_{ik}} müsste zwischen 0 und K liegen, aber wird bei W'keitsberechnung hergenommen
+
+* Überblick über Modelle für defizitäre Daten
+- Wie kann man Fragebogen items hier einordnen, bei denen gewolltes Heaping und Zensieren geschieht?
+  Zum Beipiel Frage nach Einkommen mit Kategorien und Zensur nach oben?
+- 
