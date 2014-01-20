@@ -92,19 +92,19 @@
 \usepackage{tikz}
 
 \title{Statistical Modeling: The Two Cultures}
-
-\date{18.01.2013, 12:30 Uhr \\Seminarraum, Institut für Statistik, LMU}
-\author{Christoph Molnar}
+\date{}
+\author{Christoph Molnar \\ Department of Statistics, \\ LMU Munich}
+\subtitle{Based on Leo Breiman's paper}
 
 \begin{document}
 \maketitle
 \addtocounter{framenumber}{-1}
 \note{
-\textbf{Abstract:} \\
-This presentation compares two cultures of statistical modeling: the data modeling culture, which assumes a stochastical process that produced the data. This culture is associated with traditional statistics. The other culture is called algorithmic modeling culture, which can be reduced to optimisation of a loss function with an algorithm. This culture is associated with Machine Learning. It is argued to use algorithmic modeling more often in statistics. 
+  \textbf{Abstract:} \\
+  This presentation compares two cultures of statistical modeling: the data modeling culture, which assumes a stochastic process that produced the data. This culture is associated with traditional statistics. The other culture is called algorithmic modeling culture, which can be reduced to optimization of a loss function with an algorithm. This culture is associated with Machine Learning. It is argued to use algorithmic modeling more often in statistics.
 }
 
-\begin{frame}{Gliederung}
+\begin{frame}{Outline}
   \begin{enumerate}
   \item Statistics: Data Modeling Culture
   \item Machine Learning: Algorithmic Modeling Culture
@@ -116,25 +116,25 @@ This presentation compares two cultures of statistical modeling: the data modeli
 \end{frame}
 
 \note{
-This presentation is based on ``Statistical Modeling: The two cultures'' from Leo Breiman \cite{breiman}. \\ 
-The first segment introduces the data modeling culture and analogously the second segment explains the algorithmic modeling culture together with the presentation of three algorithms. The part about statistical learning principals presents aspects which help to compare both of the aspects. The personal experiences of both cultures are addressed. The conclusion summarizes the message of the paper \cite{breiman}.
+  This presentation is based on ``Statistical Modeling: The two cultures'' from Leo Breiman \cite{breiman}. \\
+  The first segment introduces the data modeling culture and analogously the second segment explains the algorithmic modeling culture together with the presentation of three algorithms. The part about statistical learning principals presents aspects which help to compare both of cultures. Personal experiences in both cultures are addressed. The conclusion summarizes the message of the paper \cite{breiman}.
 }
 
 
-\section{statistic}
-\captionslide{Statistics: Data Modeling Culture}
+\section{Data Modeling}
+\captionslide{Data Modeling Culture}
 
 
 \begin{frame}[fragile]\frametitle{Work of a Data Analyst}
   \begin{itemize}
-  \item \textbf{Predict new cases}
-  \item \textbf{Reveal associations}
-  \item Munge data, design experiments, visualize data,  \ldots
+  \item   \textbf{Predict}
+  \item   \textbf{Reveal associations}
+  \item  Munge data, design experiments, visualize data,  \ldots
   \end{itemize}
 \end{frame}
 
 \note{
-The work of a data analyst is very diverse. This presentation focuses on the modeling of data, which can be reduced to two targets: Learn a model and predict outcome for new covariates and get a better understanding about the relationship between covariates and outcome. 
+  The work of a data analyst is very diverse. This presentation focuses on the modeling of data, which can be reduced to two targets: Learn a model to predict the outcome for new covariates and get a better understanding about the relationship between covariates and outcome.
 }
 
 
@@ -154,7 +154,7 @@ The work of a data analyst is very diverse. This presentation focuses on the mod
 \end{frame}
 
 \note{
-  In a strongly simplified world view an arbitrary outcome y is produced by the nature given the covariates x. The knowledge about the natures true mechanisms range between entirely unkwown and established (scientific) explanations of the mechanism. One example: Outcome y is the rent for appartments and covariates x are size, number of bathrooms and location. 
+  In a strongly simplified world an arbitrary outcome y is produced by the nature given the covariates x. The knowledge about the natures true mechanisms range between entirely unknown and established (scientific) explanations of the mechanism. One example: Outcome y is the rent for apartments and covariates x are size, number of bathrooms and location.
 }
 
 
@@ -171,20 +171,20 @@ The work of a data analyst is very diverse. This presentation focuses on the mod
       ;
     \end{tikzpicture}
   \end{center}
-  Find a stochastical model of the data: \\
+  Find a stochastic model of the data-generating process: \\
   y = f(x, parameters, random error)
 \end{frame}
 
 \note{
-The direct modeling of the mechanism in the ``box'' is labeled \doublequoted{Data Modeling Culture} by Leo Breiman. In this culture a stochastical model for the data generating process is assumed. A common formulation of these model is: y is a function of x with corresponding weights and an random error. For example: Give the covariates size, number of bathrooms and location the rent of appartments is normal distributed. 
+  The direct modeling of the mechanism in the ``box'' is labeled \doublequoted{Data Modeling Culture} by Leo Breiman. In this culture a stochastic model for the data- generating process is assumed. A common formulation of these model is: y is a function of x with corresponding weights and a random error. For example: Given the covariates size, number of bathrooms and location, the rent of apartments is normal distributed.
 }
 
 
 \begin{frame}[fragile]\frametitle{Typical assumptions and restrictions}
   \begin{itemize}
-  \item Specific stochastical model that generated the data
+  \item Specific stochastic model that generated the data
   \item Distribution of residuals
-  \item Linearities (e.g. Linear predictor)
+  \item Linearity (e.g. linear predictor)
   \item Manual specification of interactions
   \end{itemize}
 \end{frame}
@@ -192,8 +192,8 @@ The direct modeling of the mechanism in the ``box'' is labeled \doublequoted{Dat
 
 \begin{frame}[fragile]\frametitle{Problems}
   \begin{itemize}
-  \item Conclustions about model, not about nature
-  \item Assumption often violated
+  \item Conclusions about model, not about nature
+  \item Assumptions often violated
   \item Often no model evaluation
   \item $\Rightarrow$ can lead to irrelevant theory and questionable statistical conclusions
   \item Focus not on prediction
@@ -201,17 +201,17 @@ The direct modeling of the mechanism in the ``box'' is labeled \doublequoted{Dat
   \end{itemize}
 \end{frame}
 
-\section{Machine Learning}
-\captionslide{Machine Learning: Algorithmic Modeling Culture}
+\section{Algorithmic Modeling}
+\captionslide{Algorithmic Modeling Culture}
 
 \begin{frame}{Machine Learning}
   \begin{center}
     \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1cm,
         thick,main node/.style={circle,fill=blue!20,draw,font=\sffamily\Large\bfseries}]
-      \node[punkt] (natur) {unbekannt};
+      \node[punkt] (natur) {unknown};
       \node[right=of natur] (x) {x};
       \node[left=of natur] (y) {y};
-      \node[below=of natur, label=below:Algorithm] (algo) { \includegraphics*[width = 3cm]{./images/machine.png}};
+      \node[below=of natur, label=below:algorithm] (algo) { \includegraphics*[width = 3cm]{./images/machine.png}};
       \path[every node/.style={font=\sffamily\small}]
       (natur) edge node {} (y)
       (x) edge node  {} (natur)
@@ -220,28 +220,28 @@ The direct modeling of the mechanism in the ``box'' is labeled \doublequoted{Dat
       ;
     \end{tikzpicture}
   \end{center}
-  Find Function $f(X)$ that minimizes the loss: $L(Y, f(X))$
+  Find a function $f(X)$ that minimizes the loss: $L(Y, f(X))$
 \end{frame}
 
 \note{
-  In the \doublequoted{Algorithmic Modeling Culture}, the true mechanism is treated as unkown. It is not the target to find the true data-generating mechanism but to use an algorithm that imitates the mechanism as good as possible. Modeling is reduced to a mere problem of function optimization: Given the covariates x, outcome y and a loss function find a function f(x) which minimizes the loss for the prediction of the outcome. This culture is lived in the machine learning area. \\
-Summary: The data modeling culture tries to find the true data-generating mechanism, the algorithmic modeling cultures tries to imitate the true mechanism as good as possible.}
+  In the \doublequoted{Algorithmic Modeling Culture}, the true mechanism is treated as unknown. It is not the target to find the true data-generating mechanism but to use an algorithm that imitates the mechanism as good as possible. Modeling is reduced to a mere problem of function optimization: Given the covariates x, outcome y and a loss function find a function f(x) which minimizes the loss for the prediction of the outcome. This culture is lived in the machine learning area. \\
+  Summary: The data modeling culture tries to find the true data-generating mechanism, the algorithmic modeling culture tries to imitate the true mechanism as good as possible.}
 
 \begin{frame}[fragile]\frametitle{Algorithm in Machine Learning}
   \begin{itemize}
   \item Boosting
   \item Support Vector Machines
-  \item Artificial neural networkds
+  \item Artificial neural networks
   \item Random Forests
   \item Hidden Markov
-  \item Bayes-Netze
-  \item \ldots{} \footnote{Detials and more algorithm in ``Elements of statistical learning''\cite{elements}}
+  \item Bayes-Nets
+  \item \ldots{} \footnote{Details and more algorithms in ``Elements of statistical learning''\cite{elements}}
   \end{itemize}
 
 \end{frame}
 
 \note{
-The algorithm used in machine learning are motivated differently. Three algorithms are presented in short.
+  The algorithms used in machine learning are motivated differently. Three algorithms are presented in short.
 }
 
 
@@ -253,7 +253,7 @@ The algorithm used in machine learning are motivated differently. Three algorith
 \end{frame}
 
 \note{
-Artificial neural networks are used in classification and regression. The are inspired by the brain, which consists of a network of brain cells (neurons). Mathematically artifical neural networkds are a concatenation of weighted functions. An exemplary application is image processing. }
+  Artificial neural networks are used in classification and regression. They are inspired by the brain, which consists of a network of brain cells (neurons). Mathematically artificial neural networks are a concatenation of weighted functions. An exemplary application is image processing. }
 
 
 \begin{frame}{Support Vector Machines}
@@ -264,14 +264,8 @@ Artificial neural networks are used in classification and regression. The are in
 \end{frame}
 
 \note{
-Support Vector Machines (SVM) were originally a classification method (regression is also possible). SVMs try to draw a border between to classes in the covariate space. The distance between the border and the class points is maximized. They use a mathematical trick to implicitly project the covariates in a space with higher dimensions (sounds a bit crazy but it is true) in order to achieve class separation. Text classification is an exemplary usage. 
+  Support Vector Machines (SVM) were originally a classification method (regression is also possible). SVMs try to draw a border between to classes in the covariate space. The distance between the border and the class points is maximized. They use a mathematical trick to implicitly project the covariates in a space with higher dimensions (yes, it sounds a bit crazy) in order to achieve class separation. Text classification is an exemplary usage.
 }
-
-\begin{frame}{Random Forests}
-  \begin{center}
-    \includegraphics[width = 10cm, clip, trim = 3cm 0cm 3cm 4cm]{./images/tree.png}
-  \end{center}
-\end{frame}
 
 \begin{frame}{Random Forests}
   \begin{center}
@@ -281,7 +275,7 @@ Support Vector Machines (SVM) were originally a classification method (regressio
 \end{frame}
 
 \note{
-  Random Forests\texttrademark (invented by Leo Breiman) are used for regression und classifikation. A Random Forest consists of many decision trees. Two random mechanisms are used to train different trees on the data. Results from all trees are averaged for the prediction.
+  Random Forests\texttrademark (invented by Leo Breiman) are used for regression and classification. A Random Forest consists of many decision trees. Two random mechanisms are used to train different trees on the data. Results from all trees are averaged for the prediction.
 }
 
 \section{Principles}
@@ -289,12 +283,12 @@ Support Vector Machines (SVM) were originally a classification method (regressio
 
 \begin{frame}{Rashomon Effect}
   \begin{center}
-   (Often) Many different models describe a situation equally accurate. 
+    (Often) Many different models describe a situation equally accurate.
   \end{center}
 \end{frame}
 
 \note{
-  Rashomon is a japanese movie in which four witnessess tell different versions about an observed crime. All versions account for the facts but they are contradictory. In terms of statistical learning this means, that often different models (e.g. same y but different covariates) can be equally accurate. Each model has a different interpretation which makes it difficult to find the true mechanism in the data modeling cultures. In the algorithmic modeling culture the Rashomon effect is exploited by aggregating over many models. Random forest use this effect when aggregating over many trees. It is also common to average the predictions from different algorithms. }
+  Rashomon is a Japanese movie in which four witnesses tell different versions of a crime. All versions account for the facts but they contradict each other. In terms of statistical learning this means, that often different models (e.g. same y but different covariates) can be equally accurate. Each model has a different interpretation which makes it difficult to find the true mechanism in the data modeling cultures. In the algorithmic modeling culture the Rashomon effect is exploited by aggregating over many models. Random forests use this effect by aggregating over many trees. It is also common to average the predictions of different algorithms. }
 
 \begin{frame}{Dimensionality of the data}
   \begin{itemize}
@@ -314,23 +308,23 @@ Support Vector Machines (SVM) were originally a classification method (regressio
     \node at (1.3, -0.5) {Tree};
     \node at (9, -0.5) {Random Forest};
     \node at (1.5, -1.2) {Logist. Regression};
-    \node at (9, -1.2) {Neuronales Netz};
+    \node at (9, -1.2) {Neuronal networks};
     \node at (1.3, -1.9) {\ldots};
     \node at (9, -1.9) {\ldots};
   \end{tikzpicture}
 \end{frame}
 
 \note{
-There is a tradeoff between interpretability and predictive accuracy: the models that are good in prediction are often complex and models that are easy to interpret are often bad predictors. 
-See for example trees and Random Forests: 
-A single decision tree is very intuitive and easy to read for non-professionals, but they are instable and give weak predictions. A complex aggregation of decision trees (Random Forest) has an excellent prediction accuracy, but it is impossible to interpret the model structure. }
+  There is a trade-off between interpretability and predictive accuracy: the models that are good in prediction are often complex and models that are easy to interpret are often bad predictors.
+  See for example trees and Random Forests:
+  A single decision tree is very intuitive and easy to read for non-professionals, but they are unstable and give weak predictions. A complex aggregation of decision trees (Random Forest) has an excellent prediction accuracy, but it is impossible to interpret the model structure. }
 
 \begin{frame}{Goodness of model}
   \begin{itemize}
-  \item Data modeling culture: Goodness of fit often base on model assumptions (e.g. AIC) and calculated on training data. 
-  \item Algorithmic modeling culture: Evaluation of predictive accuracy with an extra test set or cross validation. 
+  \item Data modeling culture: Goodness of fit often based on model assumptions (e.g. AIC) and calculated on training data.
+  \item Algorithmic modeling culture: Evaluation of predictive accuracy with an extra test set or cross validation.
   \end{itemize}
-How good is a statistical model if the predictive accuracy is weak? Ist it legit to interpretate parameters and p-values?
+  How good is a statistical model if the predictive accuracy is weak? Is it legit to interpret parameters and p-values?
 \end{frame}
 
 
@@ -343,16 +337,16 @@ How good is a statistical model if the predictive accuracy is weak? Ist it legit
   \item are e.g. veterinarians, linguists, biologists, \ldots
   \item crave p-values
   \item want interpretability
-  \item ignore model diagnosis 
+  \item ignore model diagnosis
   \end{itemize}
 \end{frame}
 
 \note{
-From my experience in the statistical consulting unit of our university, most user want to test their scientific hypthesis with models. They want models which are easy to interpret regarding their questions. Thus it is more important to have a model that gives parameters associated to covariates and p-values than to have a model that predicts the data well. 
+  From my experience in the statistical consulting unit of our university, most user want to test their scientific hypothesis with models. They want models which are easy to interpret regarding their questions. Thus it is more important to have a model that gives parameters associated with covariates and p-values than to have a model that predicts the data well.
 }
 
 \begin{frame}[fragile]\frametitle{kaggle}
-  Algorithms of winners on kaggle,  a plattform für prediction challenges:
+  Algorithms of winners on kaggle,  a platform for prediction challenges:
   \begin{itemize}
     % http://blog.kaggle.com/2013/05/06/qa-with-job-salary-prediction-first-prize-winner-vlad-mnih/
   \item  Job Salary Prediction: \doublequoted{I used deep neural networks}
@@ -364,12 +358,12 @@ From my experience in the statistical consulting unit of our university, most us
 \end{frame}
 
 \note{
-  Kaggle (\url{http://www.kaggle.com}) is a platform for prediction challenges. Data are provided and the participant with the best prediction on a test set wins the challenge. To generate insights about the mechanisms in the data is secondary because the prediction is all that counts to win. That's why the algorithmic modeling culture is superior in this field. 
+  Kaggle (\url{http://www.kaggle.com}) is a platform for prediction challenges. Data are provided and the participant with the best prediction on a test set wins the challenge. To generate insights about the mechanisms in the data is secondary because the prediction is all that counts to win. That's why the algorithmic modeling culture is superior in this field.
 }
 
-\section{Fazit}
+\section{Conclusions}
 \begin{frame}{Conclusion}
-  A data analysts should:
+Data analysts should:
   \begin{itemize}
   \item Use predictive accuracy to evaluate models
   \item Seek the best model
@@ -380,13 +374,13 @@ From my experience in the statistical consulting unit of our university, most us
 
 \begin{frame}{Further literature}
 
-\begin{thebibliography}{10} 
-  \beamertemplatearticlebibitems
+  \begin{thebibliography}{10}
+    \beamertemplatearticlebibitems
   \bibitem{breiman}
     L.~Breiman
     \newblock {\em Statistical modeling: The two cultures (with comments and a rejoinder by the author)}
-    \newblock Institute of Mathematical Statistics, 2001.   
-  \beamertemplatebookbibitems
+    \newblock Institute of Mathematical Statistics, 2001.
+    \beamertemplatebookbibitems
   \bibitem{elements}
     T.~Hastie, R.~Tibshirani and J.~Friedman
     \newblock {\em The elements of statistical learning}
@@ -397,43 +391,6 @@ From my experience in the statistical consulting unit of our university, most us
 
 \begin{frame}[plain]
   \addtocounter{framenumber}{-1}
- \doublequoted{All models are wrong, but some are useful} (G. Box)
-\end{frame}
-
-
-%% \begin{frame}{Other view}
-%%   \begin{figure}
-%%     \centering
-%%     \includegraphics[width = 6cm]{./images/Data_Science_VD.png}
-%%     \caption{\url{https://s3.amazonaws.com/aws.drewconway.com/viz/venn_diagram/data_science.html}}
-%%   \end{figure}
-%% \end{frame}
-
-%% \note{
-%%   Pragmatischere Sicht: \\
-%%   Machine Learning ist die Schnittstelle zwischen Computer Science und Statistik.
-%% }
-
-\begin{frame}[plain]
-  \addtocounter{framenumber}{-1}
-  D.R. Cox in der Antwort auf Breiman's Paper: \\
-  \vspace{0.5cm}
-  \doublequoted{
-    Descriptively appealing and transparent methods with a firm model base are the ideal.
-  }
-\end{frame}
-
-
-\begin{frame}[plain]
-  \addtocounter{framenumber}{-1}
-  B. Efron in der Antwort auf Breiman's Paper: \\
-\vspace{0.5cm}
-  \doublequoted{
-    we are being asked to face problems that never heard of good experimental design
-  } \\
-  Allerdings hält aber den Wert der Vorhersagegüte für überbewertet von Breiman. 
-
+  \doublequoted{All models are wrong, but some are useful} (G. Box)
 \end{frame}
 \end{document}
-
-
