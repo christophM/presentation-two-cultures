@@ -91,64 +91,60 @@
 \usepackage{dtklogos} % must be loaded after theme
 \usepackage{tikz}
 
-%\title{Überblick Maschinelles Lernen}
-\title{Statistische Modellierung: Die zwei Kulturen}
-\subtitle{Seminar für Statistische Modellierung latenter Strukturen in den Lebens-, Sozial- und Wirtschaftswissenschaften}
+\title{Statistical Modeling: The Two Cultures}
+
 \date{18.01.2013, 12:30 Uhr \\Seminarraum, Institut für Statistik, LMU}
-\author{Christoph Molnar \\ Betreuer: Georg Schollmeyer \\ Seminarleiter: Professor Augustin}
+\author{Christoph Molnar}
 
 \begin{document}
-
-
 \maketitle
 \addtocounter{framenumber}{-1}
 \note{
 \textbf{Abstract:} \\
-In der Präsentation werden zwei Kulturen der Modellierung verglichen: die Datenmodellierung, bei der ein datengenerierender stochastischer Prozess angenommen wird und die mit traditioneller Statistik assoziiert ist; die algorithmische Modellierung, die auf Optimierung einer Funktion mit Hilfe eines Algorithmus reduziert werden kann und mit Machine Learning assoziiert wird. \\ Es wird für stärkere Verwendung von algorithmischer Modellierung in der Statistik argumentiert. 
+This presentation compares two cultures of statistical modeling: the data modeling culture, which assumes a stochastical process that produced the data. This culture is associated with traditional statistics. The other culture is called algorithmic modeling culture, which can be reduced to optimisation of a loss function with an algorithm. This culture is associated with Machine Learning. It is argued to use algorithmic modeling more often in statistics. 
 }
 
 \begin{frame}{Gliederung}
   \begin{enumerate}
-  \item Statistik: Kultur der Datenmodellierung
-  \item Machine Learning: Kultur der algorithmischen Modellierung
-  \item Prinzipien beim Lernen aus Daten
-  \item Persönliche Erfahrungen
-  \item Fazit
+  \item Statistics: Data Modeling Culture
+  \item Machine Learning: Algorithmic Modeling Culture
+  \item Statistical Learning Principles
+  \item Personal Experience
+  \item Summary
   \end{enumerate}
-  \let\thefootnote\relax\footnotetext{Inhalt basiert auf: ``Statistical Modeling: The two cultures'' von  Leo~Breiman \cite{breiman}}
+  \let\thefootnote\relax\footnotetext{Content heavily based on: ``Statistical Modeling: The two cultures'' from Leo~Breiman \cite{breiman}}
 \end{frame}
 
 \note{
-Die Präsentation basiert auf dem Artikel ``Statistical Modeling: The two cultures'' von Leo Breiman \cite{breiman}. \\ Im ersten Abschnitt wird die Modellierung in der Statistik betrachtet und analog dazu im zweiten Abschnitt die Modellierung im Machine Learning inklusive kurzer Vorstellung einiger Algorithmen. Das Kapitel über Prinzipien beim Lernen aus Daten stellt die beiden Kulturen gegenüber. Persönliche Erfahrungen illustrieren Beispiele für die beiden Kulturen. Im Fazit wird die Botschaft des Artikels \cite{breiman} zusammengefasst. 
+This presentation is based on ``Statistical Modeling: The two cultures'' from Leo Breiman \cite{breiman}. \\ 
+The first segment introduces the data modeling culture and analogously the second segment explains the algorithmic modeling culture together with the presentation of three algorithms. The part about statistical learning principals presents aspects which help to compare both of the aspects. The personal experiences of both cultures are addressed. The conclusion summarizes the message of the paper \cite{breiman}.
 }
 
 
-\section{Statistik}
-\captionslide{Statistik: Kultur der Datenmodellierung}
+\section{statistic}
+\captionslide{Statistics: Data Modeling Culture}
 
 
-
-\begin{frame}[fragile]\frametitle{Arbeit eines Statistikers}
+\begin{frame}[fragile]\frametitle{Work of a Data Analyst}
   \begin{itemize}
-  \item \textbf{Prognosen treffen}
-  \item \textbf{Zusammenhänge erklären}
-  \item Versuchsplanung, Parameterschätzung, Visualisierung, \ldots
+  \item \textbf{Predict new cases}
+  \item \textbf{Reveal associations}
+  \item Munge data, design experiments, visualize data,  \ldots
   \end{itemize}
 \end{frame}
 
 \note{
-Die Arbeit eines Statistikers ist sehr vielfältig. Hier wird nur über die Modellierung der Daten gesprochen, die zwei Ziele hat: 
-Prognose für neue Beobachtungen und Erklärung von Zusammenhängen. 
+The work of a data analyst is very diverse. This presentation focuses on the modeling of data, which can be reduced to two targets: Learn a model and predict outcome for new covariates and get a better understanding about the relationship between covariates and outcome. 
 }
 
 
-\begin{frame}[fragile]\frametitle{Vereinfachtes Weltbild}
+\begin{frame}[fragile]\frametitle{Simplified worldview}
   \begin{center}
     \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1cm,
         thick,main node/.style={circle,fill=blue!20,draw,font=\sffamily\Large\bfseries}]
-      \node[punkt] (natur) {Natur};
-      \node[right=of natur] (x) {Kovariablen};
-      \node[left=of natur] (y) {Zielgröße};
+      \node[punkt] (natur) {nature};
+      \node[right=of natur] (x) {x};
+      \node[left=of natur] (y) {y};
       \path[every node/.style={font=\sffamily\small}]
       (natur) edge node {} (y)
       (x) edge node  {} (natur)
@@ -158,65 +154,64 @@ Prognose für neue Beobachtungen und Erklärung von Zusammenhängen.
 \end{frame}
 
 \note{
- Vereinfacht kann die Natur als ein Mechanismus in einer Box betrachtet werden, der aus Kovariablen die Zielgröße generiert. 
- Die Kenntnisse über den Mechanismus der Natur können von vollkommen unbekannt bis hin zu etablierten substanzwissenschaftlichen Theorien reichen. Ein Beispiel ist der Mietspiegel: Hier ist die Zielgröße der Mietpreis und Kovariablen sind Größe und Alter der Wohnung, Art der Heizung, \ldots
+  In a strongly simplified world view an arbitrary outcome y is produced by the nature given the covariates x. The knowledge about the natures true mechanisms range between entirely unkwown and established (scientific) explanations of the mechanism. One example: Outcome y is the rent for appartments and covariates x are size, number of bathrooms and location. 
 }
 
 
-\begin{frame}[fragile]\frametitle{Weltbild des Statistikers}
+\begin{frame}[fragile]\frametitle{Data Modeling Culture}
   \begin{center}
     \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1cm,
         thick,main node/.style={circle,fill=blue!20,draw,font=\sffamily\Large\bfseries}]
-      \node[punkt] (natur) {Logistische Regression, \\Cox Model, \\GEE, \\ \ldots};
-      \node[right=of natur] (x) {Kovariablen};
-      \node[left=of natur] (y) {Zielgröße};
+      \node[punkt] (natur) {Logistic Regression, \\Cox Model, \\GEE, \\ \ldots};
+      \node[right=of natur] (x) {x};
+      \node[left=of natur] (y) {y};
       \path[every node/.style={font=\sffamily\small}]
       (natur) edge node {} (y)
       (x) edge node  {} (natur)
       ;
     \end{tikzpicture}
   \end{center}
-  Suche stochastisches Modell der Daten: \\
-  Zielgröße = f(Kovariablen, Parameter, zufälliger Fehler)
+  Find a stochastical model of the data: \\
+  y = f(x, parameters, random error)
 \end{frame}
 
 \note{
-  Das direkte Modellieren des Mechanismus in der ``Box'' wird von Breiman als \doublequoted{Data Modeling Culture} bezeichnet. In dieser Kultur wird für den datengenerierenden Prozess ein stochastisches Modell angenommen, dessen Parameter geschätzt werden können. Die meisten Modelle sind so formuliert, dass die Zielgröße eine Funktion der Kovariablen mit dazugehörigen Parametern und einem Fehlerterm ist. 
+The direct modeling of the mechanism in the ``box'' is labeled \doublequoted{Data Modeling Culture} by Leo Breiman. In this culture a stochastical model for the data generating process is assumed. A common formulation of these model is: y is a function of x with corresponding weights and an random error. For example: Give the covariates size, number of bathrooms and location the rent of appartments is normal distributed. 
 }
 
 
-\begin{frame}[fragile]\frametitle{Typische Annahmen und Restriktionen}
+\begin{frame}[fragile]\frametitle{Typical assumptions and restrictions}
   \begin{itemize}
-  \item Stochastisches Modell, dass Daten generiert
-  \item Bestimmte Verteilung der Residuen
-  \item Linearitäten (z.B. Linearer Prädiktor)
-  \item Interaktionen müssen manuell spezifiert werden 
+  \item Specific stochastical model that generated the data
+  \item Distribution of residuals
+  \item Linearities (e.g. Linear predictor)
+  \item Manual specification of interactions
   \end{itemize}
 \end{frame}
 
 
-\begin{frame}[fragile]\frametitle{Probleme}
+\begin{frame}[fragile]\frametitle{Problems}
   \begin{itemize}
-  \item Schlussfolgerungen über Modellmechanismen, nicht über Natur
-  \item Annahmen häufig verletzt
-  \item Häufig keine Modellevaluierung
-  \item $\Rightarrow$ führt zu irrelevanter Theorie und fragwürdigen statistischen Schlussfolgerungen
-  \item Fokus nicht auf Prognosekraft
-  \item Datenmodelle ungenügend in Gebieten wie Bilderkennung, Spracherkennung, \ldots
+  \item Conclustions about model, not about nature
+  \item Assumption often violated
+  \item Often no model evaluation
+  \item $\Rightarrow$ can lead to irrelevant theory and questionable statistical conclusions
+  \item Focus not on prediction
+  \item Data models fail in areas like image and speech recognition
   \end{itemize}
 \end{frame}
 
 \section{Machine Learning}
-\captionslide{Machine Learning: Kultur der algorithmischen Modellierung}
+\captionslide{Machine Learning: Algorithmic Modeling Culture}
 
 \begin{frame}{Machine Learning}
   \begin{center}
     \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=1cm,
         thick,main node/.style={circle,fill=blue!20,draw,font=\sffamily\Large\bfseries}]
       \node[punkt] (natur) {unbekannt};
-      \node[right=of natur] (x) {Kovariablen X};
-      \node[left=of natur] (y) {Zielgröße Y};
-      \node[below=of natur, label=below:Algorithmus] (algo) { \includegraphics*[width = 3cm]{./images/machine.png}};
+      \node[right=of natur] (x) {x};
+      \node[left=of natur] (y) {y};
+      \node[below=of natur, label=below:Algorithm] (algo) { \includegraphics*[width = 3cm]{./images/machine.png}};
       \path[every node/.style={font=\sffamily\small}]
       (natur) edge node {} (y)
       (x) edge node  {} (natur)
@@ -225,33 +220,32 @@ Prognose für neue Beobachtungen und Erklärung von Zusammenhängen.
       ;
     \end{tikzpicture}
   \end{center}
-  Suche Funktion $f(X)$ die den Verlust $L(Y, f(X))$ minimiert
+  Find Function $f(X)$ that minimizes the loss: $L(Y, f(X))$
 \end{frame}
 
 \note{
-  Bei dem von Breiman als \doublequoted{Algorithmic Modeling Culture} bezeichneten Vorgehen sieht man den tatsächlichen Mechanismus als unbekannt an. Man versucht nicht den datengenerierenden Prozess zu finden, sondern benutzt einen Algorithmus um den Mechanismus der Natur zu imitieren. Die Modellierung reduziert sich zu einem mathematischen Optimierungsproblem: Gegeben Kovariablen, Zielgröße und Verlustfunktion, suche ein Funktion f(X), die den Verlust bei der Vorhersage der Zielgröße minimiert. Diese Kultur findet man im Bereich des Machine Learning. \\
-Zusammenfassung: Datenmodellierung versucht den wahren Mechanismus zu finden, algorithmische Modellierung versucht den wahren Mechanismus möglichst gut zu imitieren. 
-}
+  In the \doublequoted{Algorithmic Modeling Culture}, the true mechanism is treated as unkown. It is not the target to find the true data-generating mechanism but to use an algorithm that imitates the mechanism as good as possible. Modeling is reduced to a mere problem of function optimization: Given the covariates x, outcome y and a loss function find a function f(x) which minimizes the loss for the prediction of the outcome. This culture is lived in the machine learning area. \\
+Summary: The data modeling culture tries to find the true data-generating mechanism, the algorithmic modeling cultures tries to imitate the true mechanism as good as possible.}
 
-\begin{frame}[fragile]\frametitle{Algorithmen im Machine Learning}
+\begin{frame}[fragile]\frametitle{Algorithm in Machine Learning}
   \begin{itemize}
   \item Boosting
   \item Support Vector Machines
-  \item Künstliche Neuronale Netze
+  \item Artificial neural networkds
   \item Random Forests
   \item Hidden Markov
   \item Bayes-Netze
-  \item \ldots{} \footnote{Details und mehr Algorithmen in ``Elements of statistical learning''\cite{elements}}
+  \item \ldots{} \footnote{Detials and more algorithm in ``Elements of statistical learning''\cite{elements}}
   \end{itemize}
 
 \end{frame}
 
 \note{
-Die Algorithmen im Machine Learning unterscheiden sich von den Ideen her sehr stark. Drei Algorithmen werden im Folgenden kurz vorgestellt. 
+The algorithm used in machine learning are motivated differently. Three algorithms are presented in short.
 }
 
 
-\begin{frame}{Künstliche neuronale Netze}
+\begin{frame}{Artificial neural networks}
   \includegraphics[width = 5cm]{./images/neurons.jpg}
   \hspace*{0.6cm}
   \includegraphics[width = 5cm]{./images/ANN.png}
@@ -259,8 +253,8 @@ Die Algorithmen im Machine Learning unterscheiden sich von den Ideen her sehr st
 \end{frame}
 
 \note{
-Künstliche neuronale Netze können für Klassifikation und Regression benutzt werden. Sie sind inspiriert durch das Gehirn, das aus Netzwerken von Gehirnzellen (Neuronen) besteht. Mathematisch sind künstliche neuronale Netze Verkettungen von gewichteten Funktionen. 
-Typisches Anwendungsgebiet ist die Bildverarbeitung.}
+Artificial neural networks are used in classification and regression. The are inspired by the brain, which consists of a network of brain cells (neurons). Mathematically artifical neural networkds are a concatenation of weighted functions. An exemplary application is image processing. }
+
 
 \begin{frame}{Support Vector Machines}
   \begin{center}
@@ -270,7 +264,7 @@ Typisches Anwendungsgebiet ist die Bildverarbeitung.}
 \end{frame}
 
 \note{
-Eine Support Vector Machine (SVM) ist ursprünglich ein Klassifikationsverfahren (Regression auch möglich). Sie funktioniert so, dass sie versucht im Raum der Kovariablen eine Klassengrenze zu ziehen, wobei der Abstand der Grenze zu den Beobachtungen maximiert wird. SVMs benutzen einen mathematischen Trick um implizit die Kovariablen in einen höherdimensionalen Raum abzubilden und so Trennbarkeit der Klassen zu erreichen. Typisches Anwendungsgebiet: Klassifikation von Text
+Support Vector Machines (SVM) were originally a classification method (regression is also possible). SVMs try to draw a border between to classes in the covariate space. The distance between the border and the class points is maximized. They use a mathematical trick to implicitly project the covariates in a space with higher dimensions (sounds a bit crazy but it is true) in order to achieve class separation. Text classification is an exemplary usage. 
 }
 
 \begin{frame}{Random Forests}
@@ -287,52 +281,36 @@ Eine Support Vector Machine (SVM) ist ursprünglich ein Klassifikationsverfahren
 \end{frame}
 
 \note{
-  Random Forests\texttrademark (Erfinder: Leo Breiman) werden für Regressions- und Klassifikationsprobleme eingesetzt. Ein Random Forest setzt sich aus vielen Entscheidungsbäumen zusammen. Es gibt zwei Zufallsmechanismen, die dazu benutzt werden um unterschiedliche Entscheidungsbäume an die Daten anzupassen. Für die Vorhersage werden die Vorhersagen aller Bäume aggregiert. 
+  Random Forests\texttrademark (invented by Leo Breiman) are used for regression und classifikation. A Random Forest consists of many decision trees. Two random mechanisms are used to train different trees on the data. Results from all trees are averaged for the prediction.
 }
 
-\section{Prinzipien}
-\captionslide{Prinzipien beim Lernen aus Daten}
+\section{Principles}
+\captionslide{Statistical learning principles}
 
-%% \begin{frame}[fragile]\frametitle{Prinzipien}
-%%   \begin{itemize}
-%%   \item Statistik: Bemühung der Reduktion von Kovariablen (Selektion, Dimensionsreduktion)
-%%   \item Machine Learning: Je mehr Variable, desto besser
-%%   \item Rashomon: Die Vielfalt guter Modelle
-%%   \item Occam ???
-%%   \end{itemize}
-%% \end{frame}
-
-\begin{frame}{Rashomon Effekt}
+\begin{frame}{Rashomon Effect}
   \begin{center}
-    Es gibt meist viele unterschiedliche Modelle, die einen Sachverhalt gleich gut beschreiben.
+   (Often) Many different models describe a situation equally accurate. 
   \end{center}
 \end{frame}
 
 \note{
-  Rashomon ist ein japanischer Film, in dem 4 Zeugen unterschiedliche Versionen von einem beobachteten Verbrechen erzählen. Alle Versionen erklären die Fakten und doch sind alle widersprüchlich. \\ Übertragen auf das statistische Lernen bedeutet das, dass unterschiedliche Modelle (z.B. mit unterschiedlichen Kovariablen) die Daten gleich gut vorhersagen. Jedes Modell hat aber eine andere Interpretation. \\
-  Algorithmen wie Random Forest und Boosting nutzen diesen Effekt aus und aggregieren über viele Modelle. Außerdem ist es im Machine Learning gängige Praxis verschiedene Algorithmen zu benutzen und die Resultate für die Vorhersage zu aggregieren.
-}
+  Rashomon is a japanese movie in which four witnessess tell different versions about an observed crime. All versions account for the facts but they are contradictory. In terms of statistical learning this means, that often different models (e.g. same y but different covariates) can be equally accurate. Each model has a different interpretation which makes it difficult to find the true mechanism in the data modeling cultures. In the algorithmic modeling culture the Rashomon effect is exploited by aggregating over many models. Random forest use this effect when aggregating over many trees. It is also common to average the predictions from different algorithms. }
 
-\begin{frame}{Dimensionalität der Daten}
+\begin{frame}{Dimensionality of the data}
   \begin{itemize}
-  \item Je höher die Dimensionalität (\# Kovariablen) desto schwieriger das Trennen von Rauschen und Einflüssen
-  \item Gängige Praxis in der Statistik: Variablenselektion (theoretisch motiviert oder datengesteuert) und Dimensionsreduktion
-  \item Gängige Praxis im Machine Learning: Erzeugen von vielen neuen Kovariablen um Vorhersage zu verbessern; Algorithmen meist robust für hochdimensionale Daten
+  \item The higher the dimensionality of the data (\# covariates) the more difficult is the separation of signal and noise
+  \item Common practice in data modeling: variable selection (by expert selection or data driven) and reduction of dimensionality (e.g. PCA)
+  \item Common practice in algorithmic modeling: Engineering of new features (covariates) to increase predictive accuracy; algorithms robust for many covariates
   \end{itemize}
 \end{frame}
 
-\note{
-  Random Forest robust durch Aggregation von vielen Modellen und Randomisierung bei Variablenwahl.
-  Support Vector Machines erzeugen sogar absichtlich höhere Dimensionalitäten der Daten um Trennbarkeit zu erreichen
-}
 
-
-\begin{frame}{Vorhersage vs. Interpretierbarkeit}
+\begin{frame}{Prediction vs. Interpretation}
   \begin{tikzpicture}
     \draw (0,0) -- (0,1.5) -- (9.9,0) -- (0,0);
     \draw  (0, 1.6) -- (10,1.6) -- (10, 0.1) -- (0, 1.6);
-    \node at (3, 0.2) {Interpretierbarkeit};
-    \node at (7, 1.3) {Vorhersagegüte};
+    \node at (3, 0.2) {Interpretability};
+    \node at (7, 1.3) {Predictive accuracy};
     \node at (1.3, -0.5) {Tree};
     \node at (9, -0.5) {Random Forest};
     \node at (1.5, -1.2) {Logist. Regression};
@@ -343,46 +321,38 @@ Eine Support Vector Machine (SVM) ist ursprünglich ein Klassifikationsverfahren
 \end{frame}
 
 \note{
-  Es gibt einen Tradeoff zwischen Interpretierbarkeit und Vorhersagekraft von Modellen: Komplexere Modelle liefern häufig genauere Vorhersagen. Gut interpretierbare Methoden sind meist schlecht in der Vorhersage.
-  Ein Beispiel sind Entscheidungsbäume und Random Forests: Ein einzelner Entscheidungsbaum ist sehr intuitiv und auch für Laien leicht zu interpretieren, dafür sind sie sehr instabil und liefern nicht so gute Vorhersagen. Ein Aggregat von zufällig erzeugten Bäumen, ein Random Forest, hat eine ausgezeichnete Vorhersagegüte, aber die Modellstruktur lässt sich nicht mehr interpretieren. 
-}
+There is a tradeoff between interpretability and predictive accuracy: the models that are good in prediction are often complex and models that are easy to interpret are often bad predictors. 
+See for example trees and Random Forests: 
+A single decision tree is very intuitive and easy to read for non-professionals, but they are instable and give weak predictions. A complex aggregation of decision trees (Random Forest) has an excellent prediction accuracy, but it is impossible to interpret the model structure. }
 
-\begin{frame}{Modellgüte}
+\begin{frame}{Goodness of model}
   \begin{itemize}
-  \item Statistik: Gütekriterien beruhen häufig auf Modellannahmen und werden auf Trainingsdaten berechnet. Manchmal gar keine Evaluierung
-  \item Machine Learning: Gängige Praxis: Kreuzvalidierung, extra Testset
+  \item Data modeling culture: Goodness of fit often base on model assumptions (e.g. AIC) and calculated on training data. 
+  \item Algorithmic modeling culture: Evaluation of predictive accuracy with an extra test set or cross validation. 
   \end{itemize}
-  Wie gut ist ein statistisches Modell wenn die Vorhersagegüte schlecht ist? Darf man Parameter und p-Werte interpretieren?
+How good is a statistical model if the predictive accuracy is weak? Ist it legit to interpretate parameters and p-values?
 \end{frame}
 
-%% \note{
-%%   Direkteste Messung wie gut das Modell die ``Natur abbildet'':
-%%   Nimm Beobachtung x und beobachte von der Natur produziertes y, mach das gleiche mit dem Model und beobachte y'. 
-%%   Vergleiche y' mit y. \\
-%%   In Statistik werden häufig likelihood-basierte Kriterien verwendet. 
-%% }
 
+\section{Experiences}
+\captionslide{Personal Experiences}
 
-\section{Erfahrungen}
-\captionslide{Persönliche Erfahrungen}
-
-\begin{frame}[fragile]\frametitle{Statistische Beratung}
-  Stereotypische Anwender ...
+\begin{frame}[fragile]\frametitle{Statistical Consulting}
+  Stereotypical user ...
   \begin{itemize}
-  \item sind z.B. Tiermediziner, Linguisten, Biologen, \ldots
-  \item sehnen sich nach p-Werten für Koeffizienten
-  \item möchten Interpretierbarkeit, keine Vorhersagegüte
-  \item haben meist Erfahrung mit linearen Modellen (kein Machine Learning)
-  \item kümmeren sich nicht um Modelldiagnose
+  \item are e.g. veterinarians, linguists, biologists, \ldots
+  \item crave p-values
+  \item want interpretability
+  \item ignore model diagnosis 
   \end{itemize}
 \end{frame}
 
 \note{
-  Vor allem in der Forschung möchten Anwender Hypothesen mit Hilfe von Modellen überprüfen. Dabei ist meistens nicht von Interesse wie gute Vorhersagen ein Modell liefert, sondern z.B. auf welche Werte die Koeffizienten geschätzt wurden und ob sie signifikant sind. Algorithmische Modellierung ist hier in den meisten Fällen wegen mangelnder Interpretierbarkeit nicht interessant. 
+From my experience in the statistical consulting unit of our university, most user want to test their scientific hypthesis with models. They want models which are easy to interpret regarding their questions. Thus it is more important to have a model that gives parameters associated to covariates and p-values than to have a model that predicts the data well. 
 }
 
 \begin{frame}[fragile]\frametitle{kaggle}
-  Algorithmen der Gewinner auf kaggle, Plattform für Prognose-Wettbewerbe:
+  Algorithms of winners on kaggle,  a plattform für prediction challenges:
   \begin{itemize}
     % http://blog.kaggle.com/2013/05/06/qa-with-job-salary-prediction-first-prize-winner-vlad-mnih/
   \item  Job Salary Prediction: \doublequoted{I used deep neural networks}
@@ -394,41 +364,21 @@ Eine Support Vector Machine (SVM) ist ursprünglich ein Klassifikationsverfahren
 \end{frame}
 
 \note{
-Kaggle (\url{http://www.kaggle.com}) ist eine Internetplattform auf der Vorhersageprobleme als Wettbewerbe ausgeschrieben werden. Daten werden zur Verfügung gestellt und es gewinnt derjenige, dessen Vorhersage auf Testdaten am Besten war. Es ist nicht teil des Wettbewerbes relevante Einflussgrößen zu identifizieren oder Erkenntnisse über den datengenerierenden Prozess zu finden. Da hier nur die Vorhersage zählt ist die algorithmische Modellierung klar im Vorteil gegenüber der Kultur der Datenmodellierung. 
+  Kaggle (\url{http://www.kaggle.com}) is a platform for prediction challenges. Data are provided and the participant with the best prediction on a test set wins the challenge. To generate insights about the mechanisms in the data is secondary because the prediction is all that counts to win. That's why the algorithmic modeling culture is superior in this field. 
 }
 
 \section{Fazit}
-\begin{frame}{Fazit}
-  Ein Statistiker sollte:
+\begin{frame}{Conclusion}
+  A data analysts should:
   \begin{itemize}
-  \item Modelle kritisch evaluieren
-  \item Prognosegüte als Kriterium für die Modellgüte benutzen
-  \item Das beste Modell suchen, egal ob aus der Statistik oder Machine Learning
-  \item Machine Learning in die Toolbox mit aufnehmen.
-  \item Sich immer bewusst machen: \\ \doublequoted{All models are wrong, but some are useful} (G. Box)
+  \item Use predictive accuracy to evaluate models
+  \item Seek the best model
+  \item Add Machine Learning to their toolbox
   \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Weiterführende Literatur}
-  %% @article{breiman2001statistical,
-  %%   title={Statistical modeling: The two cultures (with comments and a rejoinder by the author)},
-  %%   author={Breiman, Leo},
-  %%   journal={Statistical Science},
-  %%   volume={16},
-  %%   number={3},
-  %%   pages={199--231},
-  %%   year={2001},
-  %%   publisher={Institute of Mathematical Statistics}
-  %% }
-
-  %% @book{trevor2001elements,
-  %%   title={The elements of statistical learning},
-  %%   author={Trevor. Hastie and Robert. Tibshirani and Friedman, J Jerome H},
-  %%   volume={1},
-  %%   year={2001},
-  %%   publisher={Springer New York}
-  %% }
+\begin{frame}{Further literature}
 
 \begin{thebibliography}{10} 
   \beamertemplatearticlebibitems
@@ -447,9 +397,7 @@ Kaggle (\url{http://www.kaggle.com}) ist eine Internetplattform auf der Vorhersa
 
 \begin{frame}[plain]
   \addtocounter{framenumber}{-1}
-  \begin{center}
-    \Huge Vielen Dank für die Aufmerksamkeit
-  \end{center}
+ \doublequoted{All models are wrong, but some are useful} (G. Box)
 \end{frame}
 
 
